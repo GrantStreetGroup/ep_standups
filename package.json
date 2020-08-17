@@ -1,0 +1,15 @@
+{
+  "name": "ep_standups",
+  "version": "0.1",
+  "description": "Etherpad lite plugin to generate daily or weekly group standup pads Call http://example.com/daily/<group> to use it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steven Arnott (steven.arnott@grantstreet.com)",
+  "license": "",
+  "readmeFilename": "README.md",
+  "dependencies": { 
+    "strftime" : "" 
+  }
+}
