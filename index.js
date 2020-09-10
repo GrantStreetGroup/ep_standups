@@ -6,7 +6,7 @@ var strftime = require('strftime');
 // Inject a list of teams onto the front page
 // TODO:   Move this to a configuration setting
 exports.eejsBlock_indexWrapper = function (hook_name, args, cb) {
-  args.content = args.content + eejs.require("ep_daily_standup/templates/groups.ejs");
+  args.content = args.content + eejs.require("ep_standups/templates/groups.ejs");
   return cb();
 }
 
