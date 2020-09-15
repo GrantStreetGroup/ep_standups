@@ -3,7 +3,7 @@
 // Using the <team>-default as the starting point for new pads
 // (c) 2020 Grant Street Group
 
-var settings = require('ep_etherpad-lite/node/utils/settings');
+var settings = require('ep_etherpad-lite/node/utils/Settings');
 var async    = require('ep_etherpad-lite/node_modules/async');
 var eejs     = require('ep_etherpad-lite/node/eejs');
 var api      = require('ep_etherpad-lite/node/db/API');
