@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Grant Street Group",
-  "contributes": {  "Steven Arnott (steven.arnott@grantstreet.com)" },
+  "contributes":  "Steven Arnott (steven.arnott@grantstreet.com)",
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": { 
