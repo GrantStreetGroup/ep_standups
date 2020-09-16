@@ -1,6 +1,6 @@
 {
   "name": "ep_standups",
-  "version": "v0.1",
+  "version": "v0.1.0",
   "description": "Etherpad lite plugin to generate daily or weekly group standup pads Call http://example.com/daily/<group> to use it.",
   "main": "index.js",
   "homepage": "https://github.com/GrantStreetGroup/ep_standups",
@@ -12,7 +12,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Steven Arnott (steven.arnott@grantstreet.com)",
+  "author": "Grant Street Group",
+  "contributes": {  "Steven Arnott (steven.arnott@grantstreet.com)" },
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": { 
