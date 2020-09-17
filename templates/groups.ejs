@@ -1,6 +1,6 @@
 <div id="groups" style="text-align:center;margin-top:20px;">
-<h2>Group Standups's</h2>
-  <% for (var name in teams) { %>
+<h2>Group Standups</h2>
+  - <% for (var name in teams) { %>
   <a href="/<% if (teams[name].type == 'd' ) { %>daily<% } else { %>weekly<% } %>/<%= teams[name].group %>"><%= name %></a> - 
   <% } %>
 </div>
