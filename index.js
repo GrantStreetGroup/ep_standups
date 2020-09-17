@@ -1,3 +1,9 @@
+// Daily or Weekly standups
+// Added short cuts /daily/<team> or /weekly/<team> that redirects to <team>-<date>
+// Using the <team>-default as the starting point for new pads
+// (c) 2020 Grant Street Group
+
+var settings = require('ep_etherpad-lite/node/utils/Settings');
 var async    = require('ep_etherpad-lite/node_modules/async');
 var eejs     = require('ep_etherpad-lite/node/eejs');
 var api      = require('ep_etherpad-lite/node/db/API');
@@ -6,10 +12,16 @@ var strftime = require('strftime');
 // Inject a list of teams onto the front page
 // TODO:   Move this to a configuration setting
 exports.eejsBlock_indexWrapper = function (hook_name, args, cb) {
-  args.content = args.content + eejs.require("ep_standups/templates/groups.ejs");
+  if (settings.ep_standups) {
+    args.content = args.content + eejs.require("ep_standups/templates/groups.ejs",{ "teams": settings.ep_standups} ) ;
+  }
+
   return cb();
 }
 
+
+
+// Setup URL routes for daily and weekly endpoints
 exports.registerRoute = function (hook_name, args, cb) {
   args.app.get('/daily/:group(*)', function(req, res) {
 
