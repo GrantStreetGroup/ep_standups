@@ -4,8 +4,8 @@
 // (c) 2020 Grant Street Group
 'use strict';
 
-// const log4js = require('ep_etherpad-lite/node_modules/log4js');
-// const logger = log4js.getLogger('ep_standups');
+const log4js = require('ep_etherpad-lite/node_modules/log4js');
+const logger = log4js.getLogger('ep_standups');
 
 const settings = require('ep_etherpad-lite/node/utils/Settings');
 const async    = require('ep_etherpad-lite/node_modules/async');
@@ -65,6 +65,9 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
 
   args.app.get('/weekly/:group(*)', (req, res, next) => {
 
+
+    logger.info('Request for weekly pad for '+group)
+
     var group = req.params.group;
     var defPad = group + "-default"; 
     var padName;
@@ -84,8 +87,8 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
       return sReturn;
     };
 
-      async.series([
-	function(callback){
+    async.series([
+    	function(callback){
           // Generate Weekly PadName
            padName = createStandupPadName(group);
            callback();
