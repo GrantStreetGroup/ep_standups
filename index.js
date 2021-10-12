@@ -36,7 +36,7 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
 
     logger.info('Request for daily pad for '+group)
 
-    createStandupPadName = function(group) {
+    const createStandupPadName = (group) => {
       var sDate =  strftime('%F'); 
       var sReturn = group + "-" + sDate;
       return sReturn;
@@ -72,14 +72,14 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
     var defPad = group + "-default"; 
     var padName;
 
-    getMonday = function(d) {
+    const getMonday = (d) => {
         d = new Date(d);
         var day = d.getDay(),
         diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
         return new Date(d.setDate(diff));
     };
 
-    createStandupPadName = function(group) {
+    const createStandupPadName = (group) => {
       var sMonday = getMonday(new Date());
       var sDate =  strftime('%F', sMonday); 
       var sReturn = group + "-" + sDate;
