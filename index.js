@@ -27,12 +27,14 @@ exports.eejsBlock_indexWrapper = function (hook_name, args, cb) {
 // Setup URL routes for daily and weekly endpoints
 // exports.registerRoute = function (hook_name, args, cb) {
 exports.expressCreateServer = (hook_name, args, cb)  => {
-  
+
   args.app.get('/daily/:group(*)', (req, res, next) => {
 
     var group = req.params.group;
     var defPad = group + "-default"; 
     var padName;
+
+    logger.info('Request for daily pad for '+group)
 
     createStandupPadName = function(group) {
       var sDate =  strftime('%F'); 
