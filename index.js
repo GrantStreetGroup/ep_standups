@@ -25,8 +25,10 @@ exports.eejsBlock_indexWrapper = function (hook_name, args, cb) {
 
 
 // Setup URL routes for daily and weekly endpoints
-exports.registerRoute = function (hook_name, args, cb) {
-  args.app.get('/daily/:group(*)', function(req, res) {
+// exports.registerRoute = function (hook_name, args, cb) {
+exports.expressCreateServer = (hook_name, args, cb)  => {
+  
+  args.app.get('/daily/:group(*)', (req, res, next) => {
 
     var group = req.params.group;
     var defPad = group + "-default"; 
@@ -35,12 +37,11 @@ exports.registerRoute = function (hook_name, args, cb) {
     createStandupPadName = function(group) {
       var sDate =  strftime('%F'); 
       var sReturn = group + "-" + sDate;
-
       return sReturn;
     };
 
-      async.series([
-	function(callback){
+    async.series([
+	    function(callback){
           // Generate Daily PadName
            padName = createStandupPadName(group);
            callback();
@@ -60,7 +61,7 @@ exports.registerRoute = function (hook_name, args, cb) {
     ]);
   });
 
-  args.app.get('/weekly/:group(*)', function(req, res) {
+  args.app.get('/weekly/:group(*)', (req, res, next) => {
 
     var group = req.params.group;
     var defPad = group + "-default"; 
@@ -101,6 +102,8 @@ exports.registerRoute = function (hook_name, args, cb) {
       }
     ]);
   });
+  
+  cb();
 };
 
 
