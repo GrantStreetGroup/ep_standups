@@ -1,7 +1,7 @@
 {
   "parts": [
     {
-      "name": "ep_standups",
+    "name": "ep_standups",
 	  "hooks": {
 		  "expressCreateServer"    : "ep_standups/index:registerRoute",
       "eejsBlock_indexWrapper" : "ep_standups/index"
