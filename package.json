@@ -1,6 +1,6 @@
 {
   "name": "ep_standups",
-  "version": "v0.1.0",
+  "version": "0.1.1",
   "description": "Etherpad lite plugin to generate daily or weekly group standup pads Call http://example.com/daily/<group> to use it.",
   "main": "index.js",
   "homepage": "https://github.com/GrantStreetGroup/ep_standups",
