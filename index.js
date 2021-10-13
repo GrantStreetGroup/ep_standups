@@ -50,7 +50,7 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
         },
       function (callback) {
           try {
-          api.copyPad(defPad,padName,"false",callback)
+            api.copyPad(defPad,padName,"false",callback)
           } catch (error) {
             logger.error(error)
           }
@@ -98,8 +98,12 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
            callback();
         },
       function (callback) {
+        try {
           api.copyPad(defPad,padName,"false",callback)
-          callback();
+        } catch (error) {
+          logger.error(error)
+        }
+        callback();
       },
       function (callback) {
         // redirect to new pad
