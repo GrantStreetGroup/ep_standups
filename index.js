@@ -50,12 +50,11 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
            callback();
         },
       function (callback) {
-
         const exists = await padManager.doesPadExists(padID);
         if (!exists) {
             api.copyPad(defPad,padName,"false")
-            callback();
         }
+        callback();
       },
       function (callback) {
         // redirect to new pad
@@ -99,10 +98,10 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
            callback();
         },
       function (callback) {
-        const exists = await padManager.doesPadExists(padID);
-        if (!exists) {
+        // const exists = await padManager.doesPadExists(padID);
+        // if (!exists) {
           api.copyPad(defPad,padName,"false",callback)
-        }
+        // }
         callback();
       },
       function (callback) {
