@@ -49,7 +49,11 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
            callback();
         },
       function (callback) {
+          try {
           api.copyPad(defPad,padName,"false",callback)
+          } catch (error) {
+            logger.error(error)
+          }
           callback();
       },
       function (callback) {
