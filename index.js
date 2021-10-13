@@ -5,7 +5,7 @@
 'use strict';
 
 const log4js = require('ep_etherpad-lite/node_modules/log4js');
-const logger = log4js.getLogger('ep_standups');
+const logger = log4js.getLogger('Standups');
 
 const settings = require('ep_etherpad-lite/node/utils/Settings');
 const async    = require('ep_etherpad-lite/node_modules/async');
@@ -47,12 +47,14 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
 	    function(callback){
           // Generate Daily PadName
            padName = createStandupPadName(group);
+           logger.info('Pad name '+ padName)
            callback();
         },
       function (callback) {
-        const exists = padManager.doesPadExists(padID);
+        const exists = padManager.doesPadExists(padName);
         if (!exists) {
             api.copyPad(defPad,padName,"false")
+            logger.info('Copied '+defPad+' to '+ padName)
         }
         callback();
       },
