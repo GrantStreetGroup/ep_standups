@@ -11,6 +11,7 @@ const settings = require('ep_etherpad-lite/node/utils/Settings');
 const async    = require('ep_etherpad-lite/node_modules/async');
 const eejs     = require('ep_etherpad-lite/node/eejs');
 const api      = require('ep_etherpad-lite/node/db/API');
+const padManager = require('ep_etherpad-lite/node/db/PadManager');
 const strftime = require('strftime');
 
 // Inject a list of teams onto the front page
@@ -49,12 +50,12 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
            callback();
         },
       function (callback) {
-          try {
-            api.copyPad(defPad,padName,"false",callback)
-          } catch (error) {
-            logger.error(error)
-          }
-          callback();
+
+        const exists = await padManager.doesPadExists(padID);
+        if (!exists) {
+            await api.copyPad(defPad,padName,"false",callback)
+        }
+        callback();
       },
       function (callback) {
         // redirect to new pad
@@ -98,10 +99,9 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
            callback();
         },
       function (callback) {
-        try {
-          api.copyPad(defPad,padName,"false",callback)
-        } catch (error) {
-          logger.error(error)
+        const exists = await padManager.doesPadExists(padID);
+        if (!exists) {
+            await api.copyPad(defPad,padName,"false",callback)
         }
         callback();
       },
