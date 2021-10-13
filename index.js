@@ -97,13 +97,17 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
     	function(callback){
           // Generate Weekly PadName
            padName = createStandupPadName(group);
+           logger.info('Pad name '+ padName)
+
            callback();
         },
       function (callback) {
-        // const exists = await padManager.doesPadExists(padID);
-        // if (!exists) {
+        const exists = padManager.doesPadExists(padName);
+        if (!exists) {
           api.copyPad(defPad,padName,"false",callback)
-        // }
+          logger.info('Copied '+defPad+' to '+ padName)
+
+        }
         callback();
       },
       function (callback) {
