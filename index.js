@@ -46,7 +46,7 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
       padName = createStandupPadName(group);
       logger.info('Pad name '+ padName)
     
-      const exists = awaitpadManager.doesPadExists(padName);
+      const exists = await padManager.doesPadExists(padName);
 
       if (!exists) {
         api.copyPad(defPad,padName,"false")
