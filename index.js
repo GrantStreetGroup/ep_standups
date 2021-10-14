@@ -5,12 +5,13 @@
 'use strict';
 
 const log4js = require('ep_etherpad-lite/node_modules/log4js');
-const logger = log4js.getLogger('ep_standups');
+const logger = log4js.getLogger('Standups');
 
 const settings = require('ep_etherpad-lite/node/utils/Settings');
 const async    = require('ep_etherpad-lite/node_modules/async');
 const eejs     = require('ep_etherpad-lite/node/eejs');
 const api      = require('ep_etherpad-lite/node/db/API');
+const padManager = require('ep_etherpad-lite/node/db/PadManager');
 const strftime = require('strftime');
 
 // Inject a list of teams onto the front page
@@ -46,11 +47,16 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
 	    function(callback){
           // Generate Daily PadName
            padName = createStandupPadName(group);
+           logger.info('Pad name '+ padName)
            callback();
         },
       function (callback) {
-          api.copyPad(defPad,padName,"false",callback)
-          callback();
+        const exists = padManager.doesPadExists(padName);
+        if (!exists) {
+            api.copyPad(defPad,padName,"false")
+            logger.info('Copied '+defPad+' to '+ padName)
+        }
+        callback();
       },
       function (callback) {
         // redirect to new pad
@@ -91,11 +97,18 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
     	function(callback){
           // Generate Weekly PadName
            padName = createStandupPadName(group);
+           logger.info('Pad name '+ padName)
+
            callback();
         },
       function (callback) {
+        const exists = padManager.doesPadExists(padName);
+        if (!exists) {
           api.copyPad(defPad,padName,"false",callback)
-          callback();
+          logger.info('Copied '+defPad+' to '+ padName)
+
+        }
+        callback();
       },
       function (callback) {
         // redirect to new pad
