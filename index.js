@@ -30,34 +30,34 @@ exports.eejsBlock_indexWrapper = function (hook_name, args, cb) {
 exports.expressCreateServer = (hook_name, args, cb)  => {
 
   args.app.get('/daily/:group(*)', (req, res, next) => {
-    (async() => {
-      const group = req.params.group;
-      const defPad = group + "-default"; 
-      var padName;
 
-      logger.info('Request for daily pad for '+group)
+    (async () => {
 
-      const createStandupPadName = (group) => {
-        var sDate =  strftime('%F'); 
-        var sReturn = group + "-" + sDate;
-        return sReturn;
-      };
+    var group = req.params.group;
+    var defPad = group + "-default"; 
+    var padName;
 
-      padName = createStandupPadName(group);
-      logger.info('Pad name '+ padName)
-    
-      const exists = await padManager.doesPadExists(padName);
+    logger.info('Request for daily pad for '+group)
 
-      if (!exists) {
-        api.copyPad(defPad,padName,"false")
-        logger.info('Copied '+defPad+' to '+ padName)
-      }
-    
-      res.writeHead(302, {
-        'Location': '/p/'+padName
-      });
-      res.end();
-      });
+    const createStandupPadName = (group) => {
+      var sDate =  strftime('%F'); 
+      var sReturn = group + "-" + sDate;
+      return sReturn;
+    };
+
+    padName = createStandupPadName(group);
+    logger.info('Pad name '+ padName)
+    const exists =  padManager.doesPadExists(padName);
+
+    if (!exists) {
+      api.copyPad(defPad,padName,"false")
+      logger.info('Copied '+defPad+' to '+ padName)
+    }
+    res.writeHead(302, {
+      'Location': '/p/'+padName
+    });
+    res.end();
+    })().catch((err) => next(err || new Error(err)));
     // async.series([
 	  //   function(callback){
     //       // Generate Daily PadName
@@ -82,7 +82,7 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
     //     callback(); 
     //   }
     // ]);
-    });
+  });
 
   args.app.get('/weekly/:group(*)', (req, res, next) => {
 
