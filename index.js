@@ -103,10 +103,11 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
         },
       function (callback) {
         const exists = padManager.doesPadExists(padName);
+        logger.debug('Pad Exists: '+exists)
+        
         if (!exists) {
           api.copyPad(defPad,padName,"false",callback)
           logger.info('Copied '+defPad+' to '+ padName)
-
         }
         callback();
       },
