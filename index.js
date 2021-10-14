@@ -55,9 +55,6 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
       'Location': '/p/'+padName
     });
     res.end();
-
-    cb();
-
     // async.series([
 	  //   function(callback){
     //       // Generate Daily PadName
