@@ -32,111 +32,69 @@ exports.expressCreateServer = (hook_name, args, cb)  => {
   args.app.get('/daily/:group(*)', (req, res, next) => {
 
     (async () => {
+      var group = req.params.group;
+      var defPad = group + "-default"; 
+      var padName;
 
-    var group = req.params.group;
-    var defPad = group + "-default"; 
-    var padName;
+      logger.info('Request for daily pad for '+group)
 
-    logger.info('Request for daily pad for '+group)
+      const createStandupPadName = (group) => {
+        var sDate =  strftime('%F'); 
+        var sReturn = group + "-" + sDate;
+        return sReturn;
+      };
 
-    const createStandupPadName = (group) => {
-      var sDate =  strftime('%F'); 
-      var sReturn = group + "-" + sDate;
-      return sReturn;
-    };
+      padName = createStandupPadName(group);
+      const exists = await padManager.doesPadExists(padName);
 
-    padName = createStandupPadName(group);
-    logger.info('Pad name '+ padName)
-    const exists = await padManager.doesPadExists(padName);
-
-    if (!exists) {
-      api.copyPad(defPad,padName,"false")
-      logger.info('Copied '+defPad+' to '+ padName)
-    }
-    res.writeHead(302, {
-      'Location': '/p/'+padName
-    });
-    res.end();
+      if (!exists) {
+        api.copyPad(defPad,padName,"false")
+        logger.info('Copied '+defPad+' to '+ padName)
+      }
+      res.writeHead(302, {
+        'Location': '/p/'+padName
+      });
+      res.end();
     })().catch((err) => next(err || new Error(err)));
-    // async.series([
-	  //   function(callback){
-    //       // Generate Daily PadName
-    //        padName = createStandupPadName(group);
-    //        logger.info('Pad name '+ padName)
-    //        callback();
-    //     },
-    //   function (callback) {
-    //     const exists = padManager.doesPadExists(padName);
-    //     if (!exists) {
-    //         api.copyPad(defPad,padName,"false")
-    //         logger.info('Copied '+defPad+' to '+ padName)
-    //     }
-    //     callback();
-    //   },
-    //   function (callback) {
-    //     // redirect to new pad
-    //     res.writeHead(302, {
-    //       'Location': '/p/'+padName
-    //     });
-    //     res.end();
-    //     callback(); 
-    //   }
-    // ]);
   });
 
   args.app.get('/weekly/:group(*)', (req, res, next) => {
 
+    (async () => {
+      var group = req.params.group;
+      var defPad = group + "-default"; 
+      var padName;
 
-    logger.info('Request for weekly pad for '+group)
+      logger.info('Request for weekly pad for '+group)
 
-    var group = req.params.group;
-    var defPad = group + "-default"; 
-    var padName;
-
-    const getMonday = (d) => {
+      const getMonday = (d) => {
         d = new Date(d);
         var day = d.getDay(),
         diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
         return new Date(d.setDate(diff));
-    };
+      };
 
-    const createStandupPadName = (group) => {
-      var sMonday = getMonday(new Date());
-      var sDate =  strftime('%F', sMonday); 
-      var sReturn = group + "-" + sDate;
+      const createStandupPadName = (group) => {
+        var sMonday = getMonday(new Date());
+        var sDate =  strftime('%F', sMonday); 
+        var sReturn = group + "-" + sDate;
 
-      return sReturn;
-    };
+        return sReturn;
+      };
 
-    async.series([
-    	function(callback){
-          // Generate Weekly PadName
-           padName = createStandupPadName(group);
-           logger.info('Pad name '+ padName)
+      padName = createStandupPadName(group);
+      const exists = await padManager.doesPadExists(padName);
 
-           callback();
-        },
-      function (callback) {
-        const exists = padManager.doesPadExists(padName);
-        if (exists) {
-          logger.debug('Pad Exists')  
-        }
-        
-        if (!exists) {
-          api.copyPad(defPad,padName,"false",callback)
-          logger.info('Copied '+defPad+' to '+ padName)
-        }
-        callback();
-      },
-      function (callback) {
-        // redirect to new pad
-        res.writeHead(302, {
-          'Location': '/p/'+padName
-        });
-        res.end();
-        callback(); 
+      if (!exists) {
+        api.copyPad(defPad,padName,"false")
+        logger.info('Copied '+defPad+' to '+ padName)
       }
-    ]);
+      res.writeHead(302, {
+        'Location': '/p/'+padName
+      });
+      res.end();
+    })().catch((err) => next(err || new Error(err)));
+
   });
   
   cb();
